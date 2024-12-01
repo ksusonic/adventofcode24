@@ -10,6 +10,11 @@ import (
 )
 
 func main() {
+	part_one()
+	part_two()
+}
+
+func part_one() {
 	var (
 		left  = make([]int, 0, 1000)
 		right = make([]int, 0, 1000)
@@ -56,5 +61,44 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Result: %d", diffSum)
+	fmt.Printf("Part 2 result: %d", diffSum)
+}
+
+func part_two() {
+	var (
+		leftUnique = make(map[int]struct{}, 1000)
+		right      = make(map[int]int, 1000)
+	)
+
+	if err := utils.Load("input.txt", func(s string) error {
+		split := strings.Split(s, "   ")
+		if len(split) != 2 {
+			return fmt.Errorf("Unknown string for split: %s", s)
+		}
+
+		leftNum, err := strconv.ParseInt(split[0], 10, 32)
+		if err != nil {
+			return fmt.Errorf("Error parsing left number: %s", s)
+		}
+
+		rightNum, err := strconv.ParseInt(split[1], 10, 32)
+		if err != nil {
+			return fmt.Errorf("Error parsing right number: %s", s)
+		}
+
+		leftUnique[int(leftNum)] = struct{}{}
+		right[int(rightNum)]++
+
+		return nil
+	}); err != nil {
+		panic(err)
+	}
+
+	simScore := 0
+
+	for left := range leftUnique {
+		simScore += left * right[left]
+	}
+
+	fmt.Printf("Part 2 result: %d", simScore)
 }
