@@ -10,10 +10,11 @@ import (
 )
 
 func main() {
-	part_one()
+	partOne()
+	partTwo()
 }
 
-func part_one() {
+func partOne() {
 	result := 0
 
 	err := utils.Load("input.txt", func(s string) error {
@@ -26,7 +27,7 @@ func part_one() {
 				return fmt.Errorf("number in line parsing error: %s", s)
 			}
 
-			numericLine = append(numericLine, int(number))
+			numericLine = append(numericLine, number)
 		}
 
 		if safeLine(numericLine) {
@@ -40,6 +41,51 @@ func part_one() {
 	}
 
 	fmt.Printf("Part one: %d", result)
+}
+
+func partTwo() {
+	result := 0
+
+	err := utils.Load("input.txt", func(s string) error {
+		split := strings.Split(s, " ")
+
+		numericLine := make([]int, 0, len(split))
+		for _, ss := range split {
+			number, err := strconv.Atoi(ss)
+			if err != nil {
+				return fmt.Errorf("number in line parsing error: %s", s)
+			}
+
+			numericLine = append(numericLine, number)
+		}
+
+		if safeWithTolerateLine(numericLine) {
+			result++
+		}
+
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("Part two: %d", result)
+}
+
+func safeWithTolerateLine(numbers []int) bool {
+	if safeLine(numbers) {
+		return true
+	}
+
+	for i := 0; i < len(numbers); i++ {
+		temp := append([]int{}, numbers[:i]...)
+		temp = append(temp, numbers[i+1:]...)
+		if safeLine(temp) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func safeLine(numbers []int) bool {
