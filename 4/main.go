@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"strings"
 
@@ -30,12 +31,19 @@ func main() {
 	}
 
 	partOne(builder.String(), rowLen)
+	partTwo(builder.String(), rowLen)
 }
 
 func partOne(s string, size int) {
 	res := findXMAS(s, size)
 
 	fmt.Printf("Part one: %d", res)
+}
+
+func partTwo(s string, size int) {
+	res := findMAS(s, size)
+
+	fmt.Printf("Part two: %d", res)
 }
 
 func findXMAS(s string, size int) int {
@@ -93,6 +101,35 @@ func findXMAS(s string, size int) int {
 				if s[i+size+1] == 'M' && s[i+size*2+2] == 'A' && s[i+size*3+3] == 'S' {
 					count++
 				}
+			}
+		}
+	}
+
+	return count
+}
+
+func findMAS(s string, size int) int {
+	count := 0
+
+	allowed := map[string]struct{}{
+		"MMSS": {},
+		"MSSM": {},
+		"SSMM": {},
+		"SMMS": {},
+	}
+
+	for i := size + 1; i < len(s)-size-1; i++ {
+		horizontalPos := i % size
+
+		if s[i] == 'A' && 0 < horizontalPos && horizontalPos < size-1 {
+			buff := bytes.NewBufferString("")
+			buff.WriteByte(s[i-size-1])
+			buff.WriteByte(s[i-size+1])
+			buff.WriteByte(s[i+size+1])
+			buff.WriteByte(s[i+size-1])
+
+			if _, ok := allowed[buff.String()]; ok {
+				count++
 			}
 		}
 	}

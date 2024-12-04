@@ -7,19 +7,23 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_FindXMAS_Vertical(t *testing.T) {
-	matrix := []string{
-		"MMMSXXMASM",
-		"MSAMXMSMSA",
-		"AMXSXMAAMM",
-		"MSAMASMSMX",
-		"XMASAMXAMM",
-		"XXAMMXXAMA",
-		"SMSMSASXSS",
-		"SAXAMASAAA",
-		"MAMMMXMMMM",
-		"MXMXAXMASX",
-	}
+var testMatrix = []string{
+	"MMMSXXMASM",
+	"MSAMXMSMSA",
+	"AMXSXMAAMM",
+	"MSAMASMSMX",
+	"XMASAMXAMM",
+	"XXAMMXXAMA",
+	"SMSMSASXSS",
+	"SAXAMASAAA",
+	"MAMMMXMMMM",
+	"MXMXAXMASX",
+}
 
-	assert.Equal(t, 18, findXMAS(strings.Join(matrix, ""), len(matrix[0])))
+func Test_FindXMAS(t *testing.T) {
+	assert.Equal(t, 18, findXMAS(strings.Join(testMatrix, ""), len(testMatrix[0])))
+}
+
+func Test_FindMAS(t *testing.T) {
+	assert.Equal(t, 9, findMAS(strings.Join(testMatrix, ""), len(testMatrix[0])))
 }
