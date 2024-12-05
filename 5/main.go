@@ -3,6 +3,7 @@ package main
 import (
 	_ "embed"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -14,7 +15,7 @@ func main() {
 	rules, updates := readInput(input)
 
 	partOne(rules, updates)
-	// partTwo()
+	partTwo(rules, updates)
 }
 
 func partOne(rules map[int]map[int]struct{}, updates [][]int) {
@@ -27,6 +28,19 @@ func partOne(rules map[int]map[int]struct{}, updates [][]int) {
 	}
 
 	fmt.Printf("Part one: %d", sum)
+}
+
+func partTwo(rules map[int]map[int]struct{}, updates [][]int) {
+	var sum int
+
+	for _, update := range updates {
+		if !correctUpdate(update, rules) {
+			sorted := sortUpdate(update, rules)
+			sum += sorted[len(sorted)/2]
+		}
+	}
+
+	fmt.Printf("Part two: %d", sum)
 }
 
 func correctUpdate(update []int, rules map[int]map[int]struct{}) bool {
@@ -45,6 +59,23 @@ func correctUpdate(update []int, rules map[int]map[int]struct{}) bool {
 	}
 
 	return true
+}
+
+func sortUpdate(update []int, rules map[int]map[int]struct{}) []int {
+	sorted := make([]int, len(update))
+	copy(sorted, update)
+
+	sort.SliceStable(sorted, func(i, j int) bool {
+		ruleJ, ruleJExists := rules[sorted[j]]
+		if !ruleJExists {
+			return true
+		}
+
+		_, contains := ruleJ[sorted[i]]
+		return contains
+	})
+
+	return sorted
 }
 
 func readInput(input string) (map[int]map[int]struct{}, [][]int) {
