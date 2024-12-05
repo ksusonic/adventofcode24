@@ -20,29 +20,25 @@ func part_one() {
 		right = make([]int, 0, 1000)
 	)
 
-	if err := utils.Load("input.txt", func(s string) error {
+	utils.Load("input.txt", func(s string) {
 		split := strings.Split(s, "   ")
 		if len(split) != 2 {
-			return fmt.Errorf("Unknown string for split: %s", s)
+			panic(fmt.Errorf("Unknown string for split: %s", s))
 		}
 
 		leftNum, err := strconv.ParseInt(split[0], 10, 32)
 		if err != nil {
-			return fmt.Errorf("Error parsing left number: %s", s)
+			panic(fmt.Errorf("Error parsing left number: %s", s))
 		}
 
 		rightNum, err := strconv.ParseInt(split[1], 10, 32)
 		if err != nil {
-			return fmt.Errorf("Error parsing right number: %s", s)
+			panic(fmt.Errorf("Error parsing right number: %s", s))
 		}
 
 		left = append(left, int(leftNum))
 		right = append(right, int(rightNum))
-
-		return nil
-	}); err != nil {
-		panic(err)
-	}
+	})
 
 	slices.Sort(left)
 	slices.Sort(right)
@@ -70,29 +66,25 @@ func part_two() {
 		right      = make(map[int]int, 1000)
 	)
 
-	if err := utils.Load("input.txt", func(s string) error {
+	utils.Load("input.txt", func(s string) {
 		split := strings.Split(s, "   ")
 		if len(split) != 2 {
-			return fmt.Errorf("Unknown string for split: %s", s)
+			panic(fmt.Errorf("Unknown string for split: %s", s))
 		}
 
 		leftNum, err := strconv.ParseInt(split[0], 10, 32)
 		if err != nil {
-			return fmt.Errorf("Error parsing left number: %s", s)
+			panic(fmt.Errorf("Error parsing left number: %s", s))
 		}
 
 		rightNum, err := strconv.ParseInt(split[1], 10, 32)
 		if err != nil {
-			return fmt.Errorf("Error parsing right number: %s", s)
+			panic(fmt.Errorf("Error parsing right number: %s", s))
 		}
 
 		leftUnique[int(leftNum)] = struct{}{}
 		right[int(rightNum)]++
-
-		return nil
-	}); err != nil {
-		panic(err)
-	}
+	})
 
 	simScore := 0
 

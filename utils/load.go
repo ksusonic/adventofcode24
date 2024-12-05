@@ -5,20 +5,21 @@ import (
 	"os"
 )
 
-func Load(filename string, lineProces func(string) error) error {
+func Load(filename string, lineProces func(string)) {
 	input, err := os.Open(filename)
 	if err != nil {
-		return err
+		panic(err)
 	}
+
 	defer input.Close()
 
 	scanner := bufio.NewScanner(input)
 
 	for scanner.Scan() {
-		if err = lineProces(scanner.Text()); err != nil {
-			return err
-		}
+		lineProces(scanner.Text())
 	}
 
-	return scanner.Err()
+	if scanner.Err() != nil {
+		panic(scanner.Err())
+	}
 }

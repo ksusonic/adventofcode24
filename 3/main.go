@@ -13,14 +13,9 @@ func main() {
 	builder := strings.Builder{}
 	builder.Grow(21000) // about number of symbols in input
 
-	err := utils.Load("input.txt", func(s string) error {
+	utils.Load("input.txt", func(s string) {
 		builder.WriteString(s)
-
-		return nil
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	line := builder.String()
 

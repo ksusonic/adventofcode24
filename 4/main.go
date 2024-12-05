@@ -14,7 +14,7 @@ func main() {
 
 	rowLen := 0
 
-	err := utils.Load("input.txt", func(s string) error {
+	utils.Load("input.txt", func(s string) {
 		builder.WriteString(s)
 		if rowLen == 0 {
 			rowLen = len(s)
@@ -23,12 +23,7 @@ func main() {
 		if len(s) != rowLen {
 			panic("row len differs")
 		}
-
-		return nil
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	partOne(builder.String(), rowLen)
 	partTwo(builder.String(), rowLen)

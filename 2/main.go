@@ -17,14 +17,14 @@ func main() {
 func partOne() {
 	result := 0
 
-	err := utils.Load("input.txt", func(s string) error {
+	utils.Load("input.txt", func(s string) {
 		split := strings.Split(s, " ")
 
 		numericLine := make([]int, 0, len(split))
 		for _, ss := range split {
 			number, err := strconv.Atoi(ss)
 			if err != nil {
-				return fmt.Errorf("number in line parsing error: %s", s)
+				panic(fmt.Errorf("number in line parsing error: %s", s))
 			}
 
 			numericLine = append(numericLine, number)
@@ -33,12 +33,7 @@ func partOne() {
 		if safeLine(numericLine) {
 			result++
 		}
-
-		return nil
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	fmt.Printf("Part one: %d", result)
 }
@@ -46,14 +41,14 @@ func partOne() {
 func partTwo() {
 	result := 0
 
-	err := utils.Load("input.txt", func(s string) error {
+	utils.Load("input.txt", func(s string) {
 		split := strings.Split(s, " ")
 
 		numericLine := make([]int, 0, len(split))
 		for _, ss := range split {
 			number, err := strconv.Atoi(ss)
 			if err != nil {
-				return fmt.Errorf("number in line parsing error: %s", s)
+				panic(fmt.Errorf("number in line parsing error: %s", s))
 			}
 
 			numericLine = append(numericLine, number)
@@ -62,12 +57,7 @@ func partTwo() {
 		if safeWithTolerateLine(numericLine) {
 			result++
 		}
-
-		return nil
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	fmt.Printf("Part two: %d", result)
 }
